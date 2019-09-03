@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/pages/home/login_screem.dart';
+import 'package:loja_virtual/share/models/cart_model.dart';
+import 'package:loja_virtual/share/models/cart_product.dart';
 import 'package:loja_virtual/share/models/product.dart';
+import 'package:loja_virtual/share/models/user.dart';
 
 class ProductScreem extends StatefulWidget {
   final Product product;
@@ -96,17 +100,56 @@ class _ProductScreemState extends State<ProductScreem> {
                                   color:
                                       s == size ? pmColor : Colors.grey[500]),
                             ),
-                            width: 50.0,
                             alignment: Alignment.center,
                             child: Text(s,
                                 style: TextStyle(
-                                  color: s == size ? pmColor : Colors.grey[500],
-                                  fontWeight: s == size ? FontWeight.bold : FontWeight.normal
-                                )),
+                                    color:
+                                        s == size ? pmColor : Colors.grey[500],
+                                    fontWeight: s == size
+                                        ? FontWeight.bold
+                                        : FontWeight.normal)),
                           ),
                         );
                       },
                     ).toList(),
+                  ),
+                ),
+                SizedBox(height: 16),
+                SizedBox(
+                  height: 44,
+                  child: RaisedButton(
+                    onPressed: size != null ? () {
+                      if (User.of(context).isLoggedIn()) {
+                        CartProduct cartProduct = CartProduct();
+                        cartProduct.size = size;
+                        cartProduct.quantity = 1;
+                        cartProduct.pid = product.id;
+                        cartProduct.category = product.category;
+                        cartProduct.product = product;
+                        
+                        CartModel.of(context).addCartItem(cartProduct);
+                      } else {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreem()));
+                      }
+                    } : null,
+                    color: pmColor,
+                    textColor: Colors.white,
+                    child: Text(User.of(context).isLoggedIn() ? "Adicionar ao carrinho" : "Entre para comprar",
+                        style: TextStyle(fontSize: 18)),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  "Descrição",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  product.description,
+                  style: TextStyle(
+                    fontSize: 16.0,
                   ),
                 ),
               ],
