@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/share/models/product.dart';
+import 'package:loja_virtual/share/widgets/cart_button.dart';
 import 'package:loja_virtual/share/widgets/product_tile.dart';
 
 class CategoryScreem extends StatelessWidget {
@@ -68,6 +69,7 @@ class CategoryScreem extends StatelessWidget {
               );
           },
         ),
+        floatingActionButton: CartButton(),
       ),
     );
   }

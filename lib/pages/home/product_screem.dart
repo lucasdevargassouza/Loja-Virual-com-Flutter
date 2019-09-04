@@ -1,10 +1,12 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/pages/home/cart_screen.dart';
 import 'package:loja_virtual/pages/home/login_screem.dart';
 import 'package:loja_virtual/share/models/cart_model.dart';
 import 'package:loja_virtual/share/models/cart_product.dart';
 import 'package:loja_virtual/share/models/product.dart';
 import 'package:loja_virtual/share/models/user.dart';
+import 'package:loja_virtual/share/widgets/cart_button.dart';
 
 class ProductScreem extends StatefulWidget {
   final Product product;
@@ -26,6 +28,7 @@ class _ProductScreemState extends State<ProductScreem> {
     final pmColor = Theme.of(context).primaryColor;
 
     return Scaffold(
+      floatingActionButton: CartButton(),
       appBar: AppBar(
         title: Text(product.title),
         centerTitle: true,
@@ -128,6 +131,8 @@ class _ProductScreemState extends State<ProductScreem> {
                         cartProduct.product = product;
                         
                         CartModel.of(context).addCartItem(cartProduct);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CartScreen()));
+
                       } else {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreem()));
                       }
