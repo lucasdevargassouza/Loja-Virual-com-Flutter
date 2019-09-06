@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/pages/home/signup_screen.dart';
+import 'package:loja_virtual/pages/signup_screen.dart';
 import 'package:loja_virtual/share/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 

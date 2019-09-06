@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/pages/home/login_screem.dart';
+import 'package:loja_virtual/pages/login_screem.dart';
 import 'package:loja_virtual/share/models/user.dart';
 import 'package:scoped_model/scoped_model.dart';
 

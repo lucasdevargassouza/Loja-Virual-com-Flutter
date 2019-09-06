@@ -12,6 +12,8 @@ class CartTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _buildContent() {
+      CartModel.of(context).updatePrices();
+
       return Row(
         children: <Widget>[
           Container(
@@ -56,8 +58,7 @@ class CartTile extends StatelessWidget {
                         onPressed: cartProduct.quantity <= 1
                             ? null
                             : () {
-                                CartModel.of(context)
-                                    .decCartItem(cartProduct);
+                                CartModel.of(context).decCartItem(cartProduct);
                               },
                       ),
                       Text(cartProduct.quantity.toString()),

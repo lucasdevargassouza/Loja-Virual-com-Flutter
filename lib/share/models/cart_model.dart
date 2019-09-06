@@ -8,6 +8,9 @@ class CartModel extends Model {
   User user;
   List<CartProduct> products = [];
 
+  String couponCode;
+  int discountPercent = 0;
+
   bool isLoading = false;
 
   CartModel(this.user) {
@@ -70,6 +73,79 @@ class CartModel extends Model {
         .updateData(cartProduct.toMap());
 
     notifyListeners();
+  }
+
+  void setCoupon(String couponCode, int discountPercent) {
+    this.couponCode = couponCode;
+    this.discountPercent = discountPercent;
+  }
+
+  void updatePrices() {
+    notifyListeners();
+  }
+
+  double getProductsPrice() {
+    double price = 0.0;
+
+    for (CartProduct prod in products) {
+      if (prod.product != null) price += prod.quantity * prod.product.price;
+    }
+    return price;
+  }
+
+  double getDiscount() {
+    return getProductsPrice() * discountPercent / 100;
+  }
+
+  double getShipPrice() {
+    return 9.99;
+  }
+
+  Future<String> finishOrder() async {
+    if (products.length == 0) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double productsPrice = getProductsPrice();
+    double shipPrice = getShipPrice();
+    double discount = getDiscount();
+
+    DocumentReference refOrder =
+        await Firestore.instance.collection("orders").add({
+      "clientId": user.firabaseUser.uid,
+      "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
+      "shipPrice": shipPrice,
+      "productsPrice": productsPrice,
+      "discount": discount,
+      "totalPrice": (productsPrice - discount) + shipPrice,
+      "status": 1
+    });
+
+    await Firestore.instance
+        .collection("users")
+        .document(user.firabaseUser.uid)
+        .collection("orders")
+        .document(refOrder.documentID)
+        .setData({"orderId": refOrder.documentID});
+
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(user.firabaseUser.uid)
+        .collection("cart")
+        .getDocuments();
+    for (DocumentSnapshot doc in query.documents) {
+      doc.reference.delete();
+    }
+
+    products.clear();
+    couponCode = null;
+    discountPercent = 0;
+
+    isLoading = false;
+    notifyListeners();
+
+    return refOrder.documentID;
   }
 
   void _loadCartItem() async {

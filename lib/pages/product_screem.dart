@@ -1,7 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/pages/home/cart_screen.dart';
-import 'package:loja_virtual/pages/home/login_screem.dart';
+import 'package:loja_virtual/pages/cart_screen.dart';
+import 'package:loja_virtual/pages/login_screem.dart';
 import 'package:loja_virtual/share/models/cart_model.dart';
 import 'package:loja_virtual/share/models/cart_product.dart';
 import 'package:loja_virtual/share/models/product.dart';
