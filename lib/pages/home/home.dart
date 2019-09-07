@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/pages/home/tabs/home_tab.dart';
+import 'package:loja_virtual/pages/home/tabs/orders_tab.dart';
+import 'package:loja_virtual/pages/home/tabs/places_tab.dart';
 import 'package:loja_virtual/pages/home/tabs/products_tab.dart';
 import 'package:loja_virtual/share/widgets/cart_button.dart';
 import 'package:loja_virtual/share/widgets/custom_drawer.dart';
@@ -15,7 +17,6 @@ class Home extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Scaffold(
-          endDrawer: CustomDrawer(_pageController),
           drawer: CustomDrawer(_pageController),
           body: HomeTab(),
           floatingActionButton: CartButton(),
@@ -26,19 +27,26 @@ class Home extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Colors.grey,
           ),
-          endDrawer: CustomDrawer(_pageController),
           drawer: CustomDrawer(_pageController),
           body: ProductsTab(),
         ),
         Scaffold(
-          endDrawer: CustomDrawer(_pageController),
+          appBar: AppBar(
+            title: Text("Lojas"),
+            centerTitle: true,
+            backgroundColor: Colors.grey,
+          ),
           drawer: CustomDrawer(_pageController),
-          body: Container(color: Colors.blue),
+          body: PlacesTab(),
         ),
         Scaffold(
-          endDrawer: CustomDrawer(_pageController),
+          appBar: AppBar(
+            title: Text("Pedidos"),
+            centerTitle: true,
+            backgroundColor: Colors.grey,
+          ),
           drawer: CustomDrawer(_pageController),
-          body: Container(color: Colors.orangeAccent),
+          body: OrdersTab(),
         ),
       ],
     );
